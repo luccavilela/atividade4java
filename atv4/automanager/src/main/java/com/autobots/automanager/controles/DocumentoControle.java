@@ -9,6 +9,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,6 +39,7 @@ public class DocumentoControle {
 	@Autowired
 	private AdicionadorLinkDocumento adicionadorLink;
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR')")
 	@PostMapping("/adicionar/{usuarioId}")
 	public ResponseEntity<?> adicionarDocumento(@PathVariable Long usuarioId, @RequestBody Documento documento) {
 	    try {
@@ -51,6 +53,7 @@ public class DocumentoControle {
 	}
 	
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR','CLIENTE')")
 	@GetMapping("/documento/{documentoId}")
 	public ResponseEntity<Documento> obterDocumento(@PathVariable Long documentoId) {
 	    try {
@@ -66,6 +69,7 @@ public class DocumentoControle {
 	}
 
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR')")
 	@GetMapping("documentos")
 	public ResponseEntity<List<Documento>> obterDocumentos() {
 		List<Documento> documentos = repositorioDocumento.findAll();
@@ -81,7 +85,7 @@ public class DocumentoControle {
 	
 	
 
-	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR')")
 	@PutMapping("/atualizar/{documentoId}")
 	public ResponseEntity<?> atualizarDocumento(@PathVariable Long documentoId, @RequestBody Documento novoDocumento) {
 	    try {
@@ -101,6 +105,7 @@ public class DocumentoControle {
 	    }
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR')")
 	@DeleteMapping("/excluir/{usuarioId}/{documentoId}")
 	public ResponseEntity<?> deletarDocumento(@PathVariable Long usuarioId, @PathVariable Long documentoId) {
 		try {

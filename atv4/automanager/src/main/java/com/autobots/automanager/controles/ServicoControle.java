@@ -8,6 +8,7 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,6 +43,7 @@ public class ServicoControle {
 	@Autowired
 	private AdicionadorLinkServico adicionadorLink;
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR')")
 	@GetMapping("/servico/{servicoId}")
 	public ResponseEntity<Servico> obterServico(@PathVariable Long servicoId) {
 	    try {
@@ -56,6 +58,7 @@ public class ServicoControle {
 	    }
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR')")
 	@GetMapping("servicos")
 	public ResponseEntity<List<Servico>> obterServicos() {
 		List<Servico> servicos = repositorioServico.findAll();
@@ -69,6 +72,7 @@ public class ServicoControle {
 		}
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE')")
 	@PostMapping("servico/cadastro")
 	public ResponseEntity<?> cadastrarServico(@RequestBody Servico servico) {
 		HttpStatus status = HttpStatus.CONFLICT;
@@ -80,6 +84,7 @@ public class ServicoControle {
 
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE')")
 	@PutMapping("/atualizar/{servicoId}")
     public ResponseEntity<?> atualizarServico(@PathVariable Long servicoId, @RequestBody Servico novoServico) {
 		try {
@@ -98,6 +103,7 @@ public class ServicoControle {
 	    }
     }
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE')")
 	@DeleteMapping("/excluir/{servicoId}")
 	public ResponseEntity<?> excluirServico(@PathVariable Long servicoId) {
 	    HttpStatus status = HttpStatus.BAD_REQUEST;

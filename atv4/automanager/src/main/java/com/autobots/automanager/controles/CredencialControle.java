@@ -8,6 +8,7 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +32,7 @@ public class CredencialControle {
 	@Autowired
 	private CredencialRepositorio repositorioCredencial;
 
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PostMapping("/adicionar/{usuarioId}")
 	public ResponseEntity<?> adicionarCredencial(@PathVariable Long usuarioId, @RequestBody Credencial credencial) {
 		try {
@@ -43,6 +45,7 @@ public class CredencialControle {
 		}
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@GetMapping("/credencial/{credencialId}")
 	public ResponseEntity<Credencial> obterCredencial(@PathVariable Long credencialId) {
 		try {
@@ -53,6 +56,7 @@ public class CredencialControle {
 		}
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@GetMapping("credenciais")
 	public ResponseEntity<List<Credencial>> obterCredenciais() {
 		List<Credencial> credenciais = repositorioCredencial.findAll();
@@ -63,6 +67,7 @@ public class CredencialControle {
 		}
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PutMapping("/atualizar/{credencialId}")
 	public ResponseEntity<?> atualizarCredencial(@PathVariable Long credencialId, @RequestBody Credencial novaCredencial) {
 		try {
@@ -76,6 +81,7 @@ public class CredencialControle {
 		}
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@DeleteMapping("/excluir/{usuarioId}/{credencialId}")
 	public ResponseEntity<?> deletarCredencial(@PathVariable Long usuarioId, @PathVariable Long credencialId) {
 		try {

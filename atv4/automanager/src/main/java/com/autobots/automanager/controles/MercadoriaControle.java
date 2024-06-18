@@ -8,6 +8,7 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,6 +49,7 @@ public class MercadoriaControle {
 	@Autowired
 	private AdicionadorLinkMercadoria adicionadorLink;
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR')")
 	@GetMapping("/mercadoria/{mercadoriaId}")
 	public ResponseEntity<Mercadoria> obterMercadoria(@PathVariable Long mercadoriaId) {
 	    try {
@@ -62,6 +64,7 @@ public class MercadoriaControle {
 	    }
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR')")
 	@GetMapping("mercadorias")
 	public ResponseEntity<List<Mercadoria>> obterMercadorias() {
 		List<Mercadoria> mercadorias = repositorioMercadoria.findAll();
@@ -75,6 +78,7 @@ public class MercadoriaControle {
 		}
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE')")
 	@PostMapping("mercadoria/cadastro")
 	public ResponseEntity<?> cadastrarMercadoria(@RequestBody Mercadoria mercadoria) {
 		HttpStatus status = HttpStatus.CONFLICT;
@@ -86,6 +90,7 @@ public class MercadoriaControle {
 
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE')")
 	@PutMapping("/atualizar/{mercadoriaId}")
     public ResponseEntity<?> atualizarMercadoria(@PathVariable Long mercadoriaId, @RequestBody Mercadoria novaMercadoria) {
 		try {
@@ -104,6 +109,7 @@ public class MercadoriaControle {
 	    }
     }
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE')")
 	@DeleteMapping("/excluir/{mercadoriaId}")
 	public ResponseEntity<?> excluirMercadoria(@PathVariable Long mercadoriaId) {
 	    HttpStatus status = HttpStatus.BAD_REQUEST;

@@ -8,6 +8,7 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,7 +40,7 @@ public class VeiculoControle {
 	@Autowired
 	private AdicionadorLinkVeiculo adicionadorLink;
 	
-	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR','CLIENTE')")
 	@GetMapping("/veiculo/{veiculoId}")
 	public ResponseEntity<Veiculo> obterVeiculo(@PathVariable Long veiculoId) {
 	    try {
@@ -54,6 +55,7 @@ public class VeiculoControle {
 	    }
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR','CLIENTE')")
 	@GetMapping("veiculos")
 	public ResponseEntity<List<Veiculo>> obterVeiculos() {
 		List<Veiculo> veiculos = repositorioVeiculo.findAll();
@@ -68,6 +70,7 @@ public class VeiculoControle {
 	
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR')")
 	@PostMapping("veiculo/cadastro")
 	public ResponseEntity<?> cadastrarVeiculo(@RequestBody Veiculo veiculo) {
 		HttpStatus status = HttpStatus.CONFLICT;
@@ -79,6 +82,7 @@ public class VeiculoControle {
 
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR')")
 	@PutMapping("/atualizar/{veiculoId}")
 	public ResponseEntity<?> atualizarVeiculo(@PathVariable Long veiculoId, @RequestBody Veiculo novoVeiculo) {
 		try {
@@ -98,6 +102,7 @@ public class VeiculoControle {
 	    }
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR')")
 	@DeleteMapping("/excluir/{veiculoId}")
 	public ResponseEntity<?> excluirVeiculo(@PathVariable Long veiculoId) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;

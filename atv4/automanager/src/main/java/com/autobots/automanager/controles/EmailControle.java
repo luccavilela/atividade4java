@@ -8,6 +8,7 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -32,6 +33,7 @@ public class EmailControle {
 	@Autowired
 	private AdicionadorLinkEmail adicionadorLink;
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR','CLIENTE')")
 	@GetMapping("/email/{emailId}")
 	public ResponseEntity<Email> obterEmail(@PathVariable Long emailId) {
 	    try {
@@ -46,6 +48,7 @@ public class EmailControle {
 	    }
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR')")
 	@GetMapping("emails")
 	public ResponseEntity<List<Email>> obterEmails() {
 		List<Email> emails = repositorioEmail.findAll();
@@ -60,6 +63,7 @@ public class EmailControle {
 	}
 	
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR')")
 	@PutMapping("/atualizar/{emailId}")
     public ResponseEntity<?> atualizarEndereco(@PathVariable Long emailId, @RequestBody Email novoEmail) {
 		try {

@@ -8,6 +8,7 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,6 +50,7 @@ public class VendaControle {
 	@Autowired
 	private AdicionadorLinkVenda adicionadorLink;
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR')")
 	@GetMapping("/venda/{vendaId}")
 	public ResponseEntity<Venda> obterVenda(@PathVariable Long vendaId) {
 	    try {
@@ -63,6 +65,7 @@ public class VendaControle {
 	    }
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE')")
 	@GetMapping("vendas")
 	public ResponseEntity<List<Venda>> obterVendas() {
 		List<Venda> vendas = repositorioVenda.findAll();
@@ -76,6 +79,7 @@ public class VendaControle {
 		}
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR')")
 	@PostMapping("venda/cadastro")
 	public ResponseEntity<?> cadastrarVenda(@RequestBody Venda venda) {
 		HttpStatus status = HttpStatus.CONFLICT;
@@ -87,6 +91,7 @@ public class VendaControle {
 
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE')")
 	@PutMapping("/atualizar/{vendaId}")
     public ResponseEntity<?> atualizarVenda(@PathVariable Long vendaId, @RequestBody Venda novaVenda) {
 		try {
@@ -105,6 +110,7 @@ public class VendaControle {
 	    }
     }
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE')")
 	@DeleteMapping("/excluir/{vendaId}")
 	public ResponseEntity<?> excluirVenda(@PathVariable Long vendaId) {
 	    HttpStatus status = HttpStatus.BAD_REQUEST;

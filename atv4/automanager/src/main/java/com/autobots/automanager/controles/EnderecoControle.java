@@ -9,6 +9,7 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -31,6 +32,7 @@ public class EnderecoControle {
 	@Autowired
 	private AdicionadorLinkEndereco adicionadorLink;
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR','CLIENTE')")
 	@GetMapping("/endereco/{enderecoId}")
 	public ResponseEntity<Endereco> obterEndereco(@PathVariable Long enderecoId) {
 	    try {
@@ -45,6 +47,7 @@ public class EnderecoControle {
 	    }
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR')")
 	@GetMapping("enderecos")
 	public ResponseEntity<List<Endereco>> obterEnderecos() {
 		List<Endereco> enderecos = repositorioEndereco.findAll();
@@ -58,7 +61,7 @@ public class EnderecoControle {
 		}
 	}
 	
-	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR')")
 	@PutMapping("/atualizar/{enderecoId}")
     public ResponseEntity<?> atualizarEndereco(@PathVariable Long enderecoId, @RequestBody Endereco novoEndereco) {
 		try {

@@ -8,6 +8,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ public class TelefoneControle {
 	@Autowired
 	private AdicionadorLinkTelefone adicionadorLink;
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR')")
 	@PostMapping("/adicionar/{usuarioId}")
     public ResponseEntity<?> adicionarDocumento(@PathVariable Long usuarioId, @RequestBody Telefone telefone) {
 		try {
@@ -51,6 +53,7 @@ public class TelefoneControle {
         	
     }
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR','CLIENTE')")
 	@GetMapping("/telefone/{telefoneId}")
 	public ResponseEntity<Telefone> obterTelefone(@PathVariable Long telefoneId) {
 		try {
@@ -65,6 +68,7 @@ public class TelefoneControle {
 	    }
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR')")
 	@GetMapping("telefones")
 	public ResponseEntity<List<Telefone>> obterTelefones() {
 		List<Telefone> telefones = repositorioTelefone.findAll();
@@ -78,7 +82,7 @@ public class TelefoneControle {
 		}
 	}
 	
-	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR')")
 	@PutMapping("/atualizar/{telefoneId}")
 	public ResponseEntity<?> atualizarTelefone(@PathVariable Long telefoneId, @RequestBody Telefone novoTelefone) {
 		try {
@@ -99,6 +103,7 @@ public class TelefoneControle {
 	    }
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN','GERENTE','VENDEDOR')")
 	@DeleteMapping("/excluir/{usuarioId}/{telefoneId}")
 	public ResponseEntity<?> deletarTelefone(@PathVariable Long usuarioId, @PathVariable Long telefoneId) {
 		try {
