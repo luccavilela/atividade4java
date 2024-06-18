@@ -2,19 +2,19 @@
 
 ## Usuários pré-cadastrados para testes:
 
-Administrador:
-nomeUsuario: "admin"
-senha: "123456"
-
-Gerente:
-nomeUsuario: "gerente"
-senha: "123456"
-
-Vendedor:
-nomeUsuario: "vendedor"
-senha: "123456"
-
-Cliente: 
-nomeUsuario: "cliente"
-senha: "123456"
+Administrador: <br>
+nomeUsuario: "admin"  <br>
+senha: "123456" <br>
+ <br>
+Gerente: <br>
+nomeUsuario: "gerente" <br>
+senha: "123456" <br>
+ <br>
+Vendedor: <br>
+nomeUsuario: "vendedor" <br>
+senha: "123456" <br>
+ <br>
+Cliente:  <br>
+nomeUsuario: "cliente" <br>
+senha: "123456" <br>
 
